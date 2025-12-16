@@ -1,0 +1,174 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Joke Generator</title>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+  }
+
+  .card {
+    background: #fff;
+    width: 90%;
+    height: 700px;
+    background: linear-gradient(yellow,pink,green);
+    max-width: 420px;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+
+    /* motion */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 40px rgba(0,0,0,0.25);
+  }
+
+  h2 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .joke {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 15px;
+    line-height: 1.5;
+
+    /* fade animation */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s ease;
+  }
+
+  .joke.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  button {
+
+    padding: 10px 20px;
+    
+    border: none;
+    background: #667eea;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  .btn{
+    margin-top: 150px;
+
+  }
+  h1{
+    color:aqua;
+  }
+   
+  .photo img{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    box-shadow: 0px 3px 28px 4px greenyellow;
+    animation: move 2s linear infinite;
+  }
+
+  h1 {
+  font-size: 60px;
+  font-weight: bold;
+  color: #673ab7;
+  text-align: center;
+
+  text-shadow:
+    2px 2px 0 #512da8,
+    4px 4px 0 #311b92;
+
+  transition: transform 0.5s;
+}
+
+.photo img:hover {
+  transform: perspective(500px) rotateY(20deg);
+}
+h2:hover {
+  transform: perspective(500px) rotateY(20deg);
+}
+
+  .photo img:hover{
+    box-shadow: 0px 3px 28px 4px #FF40DD;
+  }
+  @keyframes move {
+  from {
+    left: 0;
+  }
+  to {
+    left: 300px;
+  }
+}
+
+  button:hover {
+    background: #764ba2;
+    transform: scale(1.05);
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>😂 Random Joke</h2>
+  <div id="joke" class="joke">Click the button to get a joke</div>
+  <div class="photo">
+    <img src="WhatsAppImage3.jpeg" alt="photo">
+    <h1>Umme Reshma</h1></div>
+    
+   
+  <button onclick="getJoke()" class="btn">New Joke</button>
+</div>
+
+<script>
+  async function getJoke() {
+    const jokeDiv = document.getElementById("joke");
+    
+    // reset animation
+    jokeDiv.classList.remove("show");
+
+    const res = await fetch("https://official-joke-api.appspot.com/random_joke");
+    const data = await res.json();
+
+    jokeDiv.innerHTML = `
+      <strong>${data.setup}</strong><br><br>
+      ${data.punchline}
+    `;
+
+    // trigger animation
+    setTimeout(() => {
+      jokeDiv.classList.add("show");
+    }, 100);
+  }
+</script>
+
+</body>
+</html>
